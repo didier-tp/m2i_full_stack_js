@@ -1,0 +1,1 @@
+"type": "module" dans package.json pour pouvoir utiliser la syntaxe ESM (export et import normalisé en javascript 2015)
