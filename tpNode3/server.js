@@ -16,6 +16,17 @@ app.use('/html', express.static(__dirname+"/html"));
 app.get('/', function(req , res ) {
  res.redirect('/html/index.html');
 });
+
+// Exemple : CORS enabled with express/node-js :
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*"); //"*" ou "xy.com , ..."
+    res.header("Access-Control-Allow-Methods",
+    "POST, GET, PUT, DELETE, OPTIONS"); //default: GET, ...
+    res.header("Access-Control-Allow-Headers", 
+    "Origin, X-Requested-With, Content-Type, Accept , Authorization");
+    next();
+   });
+
 //delegate REST API routes to apiRouter(s) :
 app.use(produitApiRoutes.apiRouter); 
 app.use(deviseApiRoutes.apiRouter); 
