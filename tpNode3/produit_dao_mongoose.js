@@ -20,15 +20,15 @@ var initMongooseWithSchemaAndModel = function (callbackWithPersistentProduitMode
         // we're connected!
         console.log("Connected correctly to mongodb database");
         produitSchema = new mongoose.Schema({
-            _id: { type: String, alias: "code" },
+            _id: { type: mongoose.ObjectId, alias: "code" },
             nom: String,
             prix: Number
         });
         produitSchema.set('id', false); //no default virtual id alias for _id
         produitSchema.set('toJSON', {
             virtuals: true,
-            versionKey: false,
-            transform: function (doc, ret) { delete ret._id }
+            versionKey: false ,
+           transform: function (doc, ret) { delete ret._id }
         });
         //"Produit" model name is "produits" collection name in mongoDB mabase database
         PersistentProduitModel = mongoose.model('Produit', produitSchema);

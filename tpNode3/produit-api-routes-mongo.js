@@ -1,6 +1,7 @@
 //var express = require('express');
 import express from 'express';
 import produitDao from './produit_dao_mongoose.js';
+import mongoose from 'mongoose'; // npm install -s mongoose
 
 var PersistentProduitModel;
 produitDao.initMongooseWithSchemaAndModel( (model ) => { PersistentProduitModel = model })
@@ -48,12 +49,16 @@ function findProduitsWithPrixMini(produits, prixMini) {
     return selProduits;
 }
 
-//exemple URL: http://localhost:8282/produit-api/public/produit/1
+//exemple URL: http://localhost:8282/produit-api/public/produit/1fsfqs
 apiRouter.route('/produit-api/public/produit/:code')
-    .get(function (req, res, next) {
-        var codeProduit = req.params.code;
-        var produit = findProduitInArrayByCode(allProduits, codeProduit);
+    .get(async function (req, res, next) {
+        try{
+        let codeProduit = req.params.code;
+        let produit = await PersistentProduitModel.findById(codeProduit );
         res.send(produit);
+        }catch(err){
+            res.status(404).json({message:"not found"});
+        }
     });
 
 //exemple URL: http://localhost:8282/produit-api/public/produit (returning all produits)
@@ -63,8 +68,8 @@ apiRouter.route('/produit-api/public/produit')
         try{
             let prixMini = Number(req.query.prixMini);
             let criteria=prixMini?{ prix: { $gte: prixMini } }:{};  //$gte signifie greater or equal
-            let devises = await PersistentProduitModel.find(criteria);
-            res.send(devises);
+            let produits = await PersistentProduitModel.find(criteria);
+            res.send(produits);
         }catch(err){
             res.status(404);
         }
@@ -73,50 +78,59 @@ apiRouter.route('/produit-api/public/produit')
 // avec { "code" : null , "nom" : "produitXy" , "prix" : 12.3 }
 //ou bien { "nom" : "produitXy" , "prix" : 12.3 }dans req.body
 apiRouter.route('/produit-api/private/role-admin/produit')
-    .post(function (req, res, next) {
+    .post(async function (req, res, next) {
+       
+        try{
         var nouveauProduit = req.body;
-        //simulation auto_incr :
-        if (nouveauProduit.code == null) {
-            codeMax++; nouveauProduit.code = codeMax;
-        }
-        console.log("POST,nouveauProduit=" + JSON.stringify(nouveauProduit));
-        allProduits.push(nouveauProduit);
+        nouveauProduit.code = new mongoose.Types.ObjectId();
+        console.log("nouveauProduit = " + JSON.stringify(nouveauProduit))
+        let persistentProduct = new PersistentProduitModel(nouveauProduit);
+        let savedProduct = await persistentProduct.save();
+        console.log("savedProduct = " + JSON.stringify(savedProduct))
+        //nouveauProduit.code = savedProduct.code;
         res.send(nouveauProduit);
+    }catch(err){
+        res.status(500).json(err);
+    }
     });
 // http://localhost:8282/produit-api/private/role-admin/produit en mode PUT
 // avec { "code" : 1 , "nom" : "produit_xy" , "prix" : 16.3 } dans req.body
 apiRouter.route('/produit-api/private/role-admin/produit')
-    .put(function (req, res, next) {
+    .put(async function (req, res, next) {
+        try{
         var newValueOfProduitToUpdate = req.body;
         console.log("PUT,newValueOfProduitToUpdate="
             + JSON.stringify(newValueOfProduitToUpdate));
-        var produitToUpdate =
-            findProduitInArrayByCode(allProduits, newValueOfProduitToUpdate.code);
+        let  produitToUpdate = await PersistentProduitModel.findById(newValueOfProduitToUpdate.code );
         if (produitToUpdate != null) {
-            produitToUpdate.nom = newValueOfProduitToUpdate.nom;
-            produitToUpdate.prix = newValueOfProduitToUpdate.prix;
-            res.send(produitToUpdate);
+            let filter = { code : newValueOfProduitToUpdate.code };
+            await PersistentProduitModel.updateOne(filter ,newValueOfProduitToUpdate );
+            res.send(newValueOfProduitToUpdate);
         } else {
             res.status(404).json({
                 error: "no produit to update with code="
                     + newValueOfProduitToUpdate.code
             });
         }
+    } catch(err){
+        res.status(404).json({
+            error: "no produit to update with code="
+                + newValueOfProduitToUpdate.code
+    });
     });
 
 // http://localhost:8282/produit-api/private/role-admin/produit/1 en mode DELETE
 apiRouter.route('/produit-api/private/role-admin/produit/:code')
-    .delete(function (req, res, next) {
-        let codeProduit = req.params.code;
-        console.log("DELETE,codeProduit=" + codeProduit);
-        let produitToDelete = findProduitInArrayByCode(allProduits, codeProduit);
-        if(!produitToDelete){
-           res.status(404).end(); //No Found
-        }
-         else{
-           removeProduitInArrayByCode(allProduits, codeProduit);
-          // res.send({ deletedProduitCode: codeProduit });
-         res.status(204).end(); //204 signitfie NoContent (variante du 200/OK avec aucun message d'explication)
+    .delete(async function (req, res, next) {
+        try{
+            let codeProduit = req.params.code;
+            console.log("DELETE,codeProduit=" + codeProduit);
+            const filter = { code : new  mongoose.Types.ObjectId(codeProduit) };
+            await PersistentModel.deleteOne(filter);
+            res.send({ deletedProduitCode: codeProduit });
+            //res.status(204).end(); //204 signitfie NoContent (variante du 200/OK avec aucun message d'explication)
+        }   catch(err){
+           res.status(404).json(err);
         }
     });
 // exports.apiRouter = apiRouter; // ancienne syntaxe common-js
