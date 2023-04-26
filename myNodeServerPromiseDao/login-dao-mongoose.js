@@ -39,18 +39,17 @@ initMongooseWithSchemaAndModel();
 function reinit_db(){
   return new Promise( (resolve,reject)=>{
       const deleteAllFilter = { }
-      ThisPersistentModel.deleteMany( deleteAllFilter, function (err) {
-        if(err) { 
-          console.log(JSON.stringify(err));
-          reject(err);
-        }
+      ThisPersistentModel.deleteMany( deleteAllFilter)
+      .then(()=>{ //insert elements after deleting olds
         //insert elements after deleting olds
         (new ThisPersistentModel({ username : "user1" , password : "pwduser1" , roles : "user"})).save();
         (new ThisPersistentModel({ username : "user2" , password : "pwduser2" , roles : "user"})).save();
         (new ThisPersistentModel({ username : "admin1" , password : "pwdadmin1" , roles : "admin,user"})).save();
         (new ThisPersistentModel({ username : "admin2" , password : "pwdadmin2" , roles : "admin"})).save();
         resolve({action:"logins collection re-initialized in mongoDB database"})
-      })
+        })
+      .catch((err)=>{ console.log(JSON.stringify(err)) ; 
+                      reject({error : "cannot delete in database" , cause : err}); }  );
   });
 }
 
