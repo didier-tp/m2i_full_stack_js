@@ -8,48 +8,20 @@ produitDao.initMongooseWithSchemaAndModel( (model ) => { PersistentProduitModel 
 
 const apiRouter = express.Router();
 
-var allProduits = [];
 
-allProduits.push({ code: 1, nom: 'classeur', prix: 4.0 });
-allProduits.push({ code: 2, nom: 'cahier', prix: 2.1 });
-allProduits.push({ code: 3, nom: 'colle', prix: 2.4 });
-allProduits.push({ code: 4, nom: 'stylo', prix: 1.9 });
-
-var codeMax = 4; //pour simulation auto_incr 
-
-function findProduitInArrayByCode(produits, code) {
-    var produit = null;
-    for (let i in produits) {
-        if (produits[i].code == code) {
-            produit = produits[i]; break;
+//exemple URL: http://localhost:8282/produit-api/public/produit-reinit
+apiRouter.route('/produit-api/public/produit-reinit')
+    .get(async function (req, res, next) {
+        try{
+            let messageObj = await produitDao.reInitDataSet(PersistentProduitModel);
+            res.send(messageObj);
+        }catch(err){
+            res.status(500).json(err);
         }
-    }
-    return produit;
-}
+    });
 
-function removeProduitInArrayByCode(produits, code) {
-    var delIndex;
-    for (let i in produits) {
-        if (produits[i].code == code) {
-            delIndex = i; break;
-        }
-    }
-    if (delIndex) {
-        produits.splice(delIndex, 1);
-    }
-}
 
-function findProduitsWithPrixMini(produits, prixMini) {
-    var selProduits = [];
-    for (let i in produits) {
-        if (produits[i].prix >= prixMini) {
-            selProduits.push(produits[i]);
-        }
-    }
-    return selProduits;
-}
-
-//exemple URL: http://localhost:8282/produit-api/public/produit/1fsfqs
+//exemple URL: http://localhost:8282/produit-api/public/produit/618d53514e0720e69e2e54c7
 apiRouter.route('/produit-api/public/produit/:code')
     .get(async function (req, res, next) {
         try{
@@ -112,18 +84,18 @@ apiRouter.route('/produit-api/private/role-admin/produit')
     }
 });
 
-// http://localhost:8282/produit-api/private/role-admin/produit/1 en mode DELETE
+// http://localhost:8282/produit-api/private/role-admin/produit/618d53514e0720e69e2e54c7 en mode DELETE
 apiRouter.route('/produit-api/private/role-admin/produit/:code')
     .delete(async function (req, res, next) {
         try{
             let codeProduit = req.params.code;
             console.log("DELETE,codeProduit=" + codeProduit);
-            const filter = { code : new  mongoose.Types.ObjectId(codeProduit) };
-            await PersistentModel.deleteOne(filter);
-            res.send({ deletedProduitCode: codeProduit });
+            const filter = { _id : codeProduit };
+            await PersistentProduitModel.deleteOne(filter);
+            res.send({ deletedOrAlreadyDeletedProduitCode: codeProduit });
             //res.status(204).end(); //204 signitfie NoContent (variante du 200/OK avec aucun message d'explication)
         }   catch(err){
-           res.status(404).json(err);
+           res.status(500).json(err);
         }
     });
 // exports.apiRouter = apiRouter; // ancienne syntaxe common-js

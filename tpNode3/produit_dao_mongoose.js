@@ -39,4 +39,16 @@ var initMongooseWithSchemaAndModel = function (callbackWithPersistentProduitMode
     });
 }
 
-export default { initMongooseWithSchemaAndModel }
+var reInitDataSet=async function(PersistentProdModel){
+    try{
+    await PersistentProdModel.deleteMany( {} ); //delete all old content
+    await (new PersistentProdModel({code : "618d53514e0720e69e2e54c7" , nom:"cahier" , prix: 3.3 })).save();
+    await (new PersistentProdModel({code : "618d53514e0720e69e2e54c8" , nom:"stylo" , prix: 1.63 })).save();
+    await (new PersistentProdModel({code : "618d53514e0720e69e2e54c9" , nom:"classeur" , prix: 5.5 })).save();
+    return { message : "produits collection successfully reinit" };
+    }catch(ex){
+        throw ex;
+    }
+}
+
+export default { initMongooseWithSchemaAndModel , reInitDataSet }
