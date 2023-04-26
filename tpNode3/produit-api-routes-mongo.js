@@ -98,26 +98,19 @@ apiRouter.route('/produit-api/private/role-admin/produit')
 apiRouter.route('/produit-api/private/role-admin/produit')
     .put(async function (req, res, next) {
         try{
-        var newValueOfProduitToUpdate = req.body;
-        console.log("PUT,newValueOfProduitToUpdate="
-            + JSON.stringify(newValueOfProduitToUpdate));
-        let  produitToUpdate = await PersistentProduitModel.findById(newValueOfProduitToUpdate.code );
-        if (produitToUpdate != null) {
-            let filter = { code : newValueOfProduitToUpdate.code };
-            await PersistentProduitModel.updateOne(filter ,newValueOfProduitToUpdate );
-            res.send(newValueOfProduitToUpdate);
-        } else {
-            res.status(404).json({
-                error: "no produit to update with code="
-                    + newValueOfProduitToUpdate.code
-            });
-        }
-    } catch(err){
-        res.status(404).json({
-            error: "no produit to update with code="
-                + newValueOfProduitToUpdate.code
-    });
-    });
+                var newValueOfProduitToUpdate = req.body;
+                console.log("PUT,newValueOfProduitToUpdate="
+                    + JSON.stringify(newValueOfProduitToUpdate));
+                let  produitToUpdate = await PersistentProduitModel.findById(newValueOfProduitToUpdate.code );
+                if (produitToUpdate != null) {
+                    let filter = { _id : newValueOfProduitToUpdate.code };
+                    await PersistentProduitModel.updateOne(filter ,newValueOfProduitToUpdate );
+                    res.send(newValueOfProduitToUpdate);
+                } 
+      } catch(err){
+        res.status(404).json({ error: "erreur put/update" });
+    }
+});
 
 // http://localhost:8282/produit-api/private/role-admin/produit/1 en mode DELETE
 apiRouter.route('/produit-api/private/role-admin/produit/:code')
