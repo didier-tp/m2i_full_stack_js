@@ -1,7 +1,16 @@
 <p>basic works!</p>
-<app-calculatrice></app-calculatrice>
-<app-tva></app-tva>
-<app-zz></app-zz>
+<app-toggle-panel title="calculatrice">
+    <app-calculatrice></app-calculatrice>
+</app-toggle-panel>
+
+<app-toggle-panel title="calcul de tva">
+    <app-tva></app-tva>
+</app-toggle-panel>
+
+<app-toggle-panel title="zz">
+    <app-zz></app-zz>
+</app-toggle-panel>
+
 <hr/>
 username: <input [(ngModel)]="username" > <br>
 <button (click)="onAction()">hello</button> <br>

@@ -8,8 +8,8 @@ ht: <input [(ngModel)]="ht" (input)="onCalculerTvaTtc()" /> <br/>
 <button (click)="onCalculerTvaTtc()">calculer tva</button><br/>
 -->
  <div *ngIf="tva > 0"> 
-    tva=<span class="enEvidence">{{tva}}</span> <br/>
-    ttc=<span class="enEvidence">{{ttc}}</span>
+    tva=<span class="enEvidence">{{tva | number:'1.0-2'}}</span> <br/>
+    ttc=<span class="enEvidence">{{ ttc.toFixed(2) }}</span>
 </div> 
 
 
