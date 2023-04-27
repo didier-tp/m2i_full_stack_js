@@ -1,0 +1,105 @@
+<html>
+<head>
+<title>navigation</title>
+	<script src="js/bootstrap.bundle.js"></script>
+	<link rel="stylesheet" href="./css/bootstrap.min.css">
+	<link rel="stylesheet" href="./css/styles.css">
+    <script>
+	   function showActiveSelection(link){
+		   if(link == undefined) return;
+		   link.classList.add('active');
+		   var parentLi = link.parentElement;
+		   if(parentLi == undefined) return;
+		   let nextSibling = parentLi.nextElementSibling;
+		   while(nextSibling) {
+				let eltA = nextSibling.querySelector('a');
+				//console.log("eltA="+eltA.innerText);
+				if(eltA) eltA.classList.remove('active');
+				nextSibling = nextSibling.nextElementSibling;
+	           }
+		   let prevSibling = parentLi.previousElementSibling;
+		   while(prevSibling) {
+				let eltA = prevSibling.querySelector('a');
+				if(eltA) eltA.classList.remove('active');
+				prevSibling = prevSibling.previousElementSibling;
+	           }
+	      }
+	  
+	   window.onload= function() { 
+	     var linkList = [].slice.call(document.querySelectorAll('a'));
+	     linkList.map( ( link )=> { link.addEventListener('click',function(evt){
+		     showActiveSelection(evt.target);
+		     var txt = evt.target.innerText;			 
+			 if(txt != undefined)
+		        document.querySelector('#variant-content').innerText='texte generic pour un click sur ' + txt;
+		    })
+		 })
+	     
+         document.querySelector('#a_html').addEventListener('click',function() {
+		   document.querySelector('#variant-content').innerText='texte qui va bien pour HTML';
+          });
+		  
+		  document.querySelector('#a_css').addEventListener('click',function() {
+		   document.querySelector('#variant-content').innerText='texte qui va bien pour CSS';
+          });
+		  
+		  //shown.bs.dropdown , hidden.bs.dropdown , ...
+		  document.querySelector('#dropdown1').addEventListener('shown.bs.dropdown', function () {
+		    alert('menu dropdown1 visible');
+			// Je fais un truc quand le menu est devenu visible
+		  });
+		  
+       }
+	</script>
+</head>
+<body>
+  <h1> navigation , ...</h1>
+   <div class="card">
+		<div class="card-header bg-info">
+		  <h4 class="card-title"> card avec contenu variable (selon navigation) </h4>
+		</div>
+		<div id="variant-content" class="collapse show">
+		  <div class="card-body">... selon gestion des events avec jquery ...</div>
+		</div>
+	  </div>
+   <h3> dropdown menu</h3>
+ <div class="dropdown" id="dropdown1">
+  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
+  <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    <li><a id="a_html" href="#">HTML</a></li>
+    <li><a id="a_css" href="#">CSS</a></li>
+	<li class="divider"></li> <!-- separation -->
+    <li class="disabled"><a href="#">JavaScript</a></li> <!-- class="disabled" si temporairement inactif -->
+  </ul>
+</div>
+
+  <h3> nav-tabs , nav-pills</h3>
+  <br/>
+  <p> &lt;ul class="nav nav-tabs" &gt; incluant  </p>
+  <p> &lt;li class="nav-item" &gt;&lt;a class="nav-link" href="#" &gt; onglet_n &lt;/a&gt; &lt;/li&gt; pour chaque titre d'onglet </p>
+  <p> le &lt;li&gt; de l'onglet par defaut comportera idealement class="nav-link active" </p>
+    <ul class="nav nav-tabs">
+	   <li class="nav-item"><a class="nav-link active" href="#">onglet_1</a></li>
+	   <li class="nav-item"><a class="nav-link" href="#">onglet_2</a></li>
+	   <li class="nav-item"><a class="nav-link" href="#">onglet_3</a></li>
+	</ul>
+	<br/>
+	<p> variante avec nav-pills au lieu de nav-tabs : </p>
+    <ul class="nav nav-pills">
+	   <li class="nav-item"><a class="nav-link active" href="#">onglet_1</a></li>
+	   <li class="nav-item"><a class="nav-link" href="#">onglet_2</a></li>
+	   <li class="nav-item"><a class="nav-link" href="#">onglet_3</a></li>
+	</ul>
+	
+	<br/>
+	<p> variante avec flex-column en plus pour une version verticale : </p>
+    <ul class="nav nav-pills flex-column">
+	   <li class="nav-item"><a class="nav-link active" href="#">onglet_1</a></li>
+	   <li class="nav-item"><a class="nav-link" href="#">onglet_2</a></li>
+	   <li class="nav-item"><a class="nav-link" href="#">onglet_3</a></li>
+	</ul>
+	<hr/>
+	
+</body>
+</html>

@@ -1,0 +1,157 @@
+<html>
+<head>
+<title>basic bootstrap elements</title>
+	<!-- <script src="js/bootstrap.min.js"></script> -->
+	<script src="js/bootstrap.bundle.min.js"></script> <!-- including popper.js , ... -->
+	<link rel="stylesheet" href="./css/bootstrap.min.css">
+	<link rel="stylesheet" href="./css/styles.css">
+	
+	<script>
+window.onload = function(){
+    //initilisation indispensable permettant d'activer la fonctionnalité "tooltip":
+	var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+	var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+		return new bootstrap.Tooltip(tooltipTriggerEl)
+	})
+	
+    //initilisation indispensable permettant d'activer la fonctionnalité "popover":
+    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+	var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+		return new bootstrap.Popover(popoverTriggerEl)
+	})	
+}
+</script>
+
+</head>
+<body>
+  <h3> buttons </h3>
+    <button class="btn btn-default">btn btn-default</button>
+    <button class="btn btn-primary">btn btn-primary</button> 
+	<button class="btn btn-secondary">btn btn-secondary</button> 
+	<button class="btn btn-success">btn-success</button> 
+	<button class="btn btn-info">btn btn-info</button> <br/>
+	<button class="btn btn-warning">btn btn-warning</button> 
+	<button class="btn btn-danger">btn btn-danger</button>
+    <button class="btn btn-dark">btn btn-dark</button> 
+	<button class="btn btn-light">btn btn-light</button>
+    <button class="btn btn-link">btn btn-link</button>	
+	<br/><br/>
+	<button class="btn btn-primary btn-sm">btn btn-sm</button>
+	<button class="btn btn-primary">btn default/standard/medium</button>
+	<button class="btn btn-primary btn-lg">btn btn-lg</button>
+	<br/><br/>
+	<button class="btn btn-primary btn-block">btn-block (toute largeur du parent)</button>
+	<br/>
+	<button class="btn btn-primary active">active (marked as pressed)</button> 
+    <button class="btn btn-primary disabled">disabled (marked as unclickable)</button> 
+
+    <h5> series of buttons in div/.btn-group </h5>
+		 <div class="btn-group">
+		  <button type="button" class="btn btn-primary">b1</button>
+		  <button type="button" class="btn btn-primary">b2</button>
+		  <button type="button" class="btn btn-primary">b3</button>
+		</div>	
+   <h5> series of buttons in div/.btn-group-vertical </h5>
+		 <div class="btn-group-vertical">
+		  <button type="button" class="btn btn-primary">b1</button>
+		  <button type="button" class="btn btn-primary">b2</button>
+		  <button type="button" class="btn btn-primary">b3</button>
+		</div>
+	<h5> toolbar ( plusieurs div/.btn-group dans div/.btn-toolbar ) </h5>
+	
+	<div class="btn-toolbar">
+	  <div class="btn-group">
+		  <a class="btn btn-danger" href="#">1</a>
+		  <a class="btn btn-info" href="#">2</a>
+		  <a class="btn btn-warning" href="#">3</a>
+	  </div>
+	  <div class="btn-group">
+		  <a class="btn btn-danger" href="#">4</a>
+		  <a class="btn btn-info" href="#">5</a>
+		  <a class="btn btn-warning" href="#">6</a>
+	  </div>
+	</div>
+	<hr/>
+	<h3> tooltip </h3>
+
+	&lt;button  type="button" class="btn btn-secondary" data-bs-toggle="tooltip"  <br/>
+	&nbsp;&nbsp; data-bs-placement="top" title="Tooltip on top"&gt;Toggle tooltip (when mouseover)&lt;/button&gt; <br/>
+    <div class="container-fluid" >
+		<button type="button" class="btn btn-secondary" 
+		data-bs-toggle="tooltip" 
+		data-bs-placement="top" title="my Tooltip text">
+			Toggle tooltip (when mouseover) avec bug selon contexte
+		</button>
+	</div> <a href="just_tooltips.html"> just tooltip </a>
+   <hr/>
+   <h3> (simple) popover = like tooltip but with title and content string</h3>
+
+	&lt;button  type="button" class="btn btn-lg btn-danger" 
+	data-bs-toggle="popover" title="Popover title" <br/>
+	data-bs-content="And here's some amazing content. It's very engaging. Right?"  
+	&nbsp;&nbsp;  &gt;Click to toggle popover &lt;/button&gt; <br/>
+	   
+   <button type="button" class="btn btn-lg btn-danger" data-bs-toggle="popover" title="Popover title" data-bs-content="And here's some amazing content. It's very engaging. Right?">Click to toggle popover</button>
+   <hr/>
+   <h3>alert (messages) </h3>
+		
+		<br/> <b>alert-dismissible fade show</b> pour un effet lors de la fermeture ulterieure<br/><br/>
+   
+    
+		<div class="alert alert-success" role="alert">
+  		  <strong>(alert alert-success) Success!</strong> Indicates a successful or positive action.
+		</div>
+
+		<div class="alert alert-info alert-dismissible fade show" role="alert">
+		  <strong>(alert alert-info) Info!</strong> Indicates a neutral informative change or action.
+		  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+
+		<div class="alert alert-warning" role="alert">
+		  <strong>(alert alert-warning) Warning!</strong> Indicates a warning that might need attention.
+		</div>
+
+		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+		  <strong>(alert alert-danger) Danger!</strong> Indicates a dangerous or potentially negative action.
+		  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+		
+	<hr/>
+	<h3> progress bar </h3>
+	
+	&lt;div class="progress"&gt;<br/>
+	 &nbsp; &lt;div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar"<br/>
+	 &nbsp;&nbsp; &nbsp;&nbsp;aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%"&gt;
+		50% Complete (info) &lt;/div&gt;<br/>
+	&lt;/div&gt;
+		
+	<div class="progress">
+	  <div class="progress-bar bg-success progress-bar-striped active" role="progressbar"
+	  aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%">
+		40% Complete (success)
+	  </div>
+	</div> <br/>
+
+	<div class="progress">
+	  <div class="progress-bar bg-info progress-bar-striped active" role="progressbar"
+	  aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%">
+		50% Complete (info)
+	  </div>
+	</div><br/>
+
+	<div class="progress">
+	  <div class="progress-bar bg-warning progress-bar-striped active" role="progressbar"
+	  aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:60%">
+		60% Complete (warning)
+	  </div>
+	</div><br/>
+
+	<div class="progress">
+	  <div class="progress-bar bg-danger progress-bar-striped active" role="progressbar"
+	  aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
+		70% Complete (danger)
+	  </div>
+	</div><br/>
+		
+</body>
+</html>
