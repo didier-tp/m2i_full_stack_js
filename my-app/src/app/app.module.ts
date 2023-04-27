@@ -13,6 +13,9 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { LoginComponent } from './login/login.component';
 import { ZzComponent } from './basic/zz/zz.component';
 import { TogglePanelComponent } from './toggle-panel/toggle-panel.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ProduitComponent } from './produit/produit.component';
+
 
 
 @NgModule({
@@ -26,12 +29,14 @@ import { TogglePanelComponent } from './toggle-panel/toggle-panel.component';
     WelcomeComponent,
     LoginComponent,
     ZzComponent,
-    TogglePanelComponent
+    TogglePanelComponent,
+    ProduitComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
