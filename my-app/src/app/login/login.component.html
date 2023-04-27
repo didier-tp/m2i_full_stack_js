@@ -1,8 +1,20 @@
 <p>login</p>
 
 <form #formLogin="ngForm">
-    <label>username:</label> <input [(ngModel)]="loginRequest.username" name="username" required pattern="^[a-zA-Z].+"  /> <br/>
-    <label>password:</label> <input [(ngModel)]="loginRequest.password" name="password" required minlength="3"  /> <br/>
-    <button (click)="onLogin()"  [disabled]="!formLogin.form.valid"  >login</button><br/>
+   <div class="row form-group mb-2"> 
+    <label class="col-sm-4 col-form-label text-sm-end">username:</label> 
+    <div class="col-sm-8">
+       <input [(ngModel)]="loginRequest.username" class="form-control" name="username" required pattern="^[a-zA-Z].+"  /> 
+    </div>
+  </div>
+
+  <div class="row form-group mb-2"> 
+    <label class="col-sm-4 col-form-label text-sm-end">password:</label> 
+    <div class="col-sm-8 ">
+        <input [(ngModel)]="loginRequest.password" class="form-control" name="password" required minlength="3"  /> 
+    </div>
+ </div>
+
+    <button class="btn btn-primary" (click)="onLogin()"  [disabled]="!formLogin.form.valid"  >login</button><br/>
 </form>
 message:{{message}}

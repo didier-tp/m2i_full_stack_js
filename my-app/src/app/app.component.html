@@ -1,12 +1,14 @@
-<app-header></app-header>
+<div class="container-fluid"> <!-- container-fluid = classe css de bootstrap pour avoir des marges correctes -->
+    <app-header></app-header>
 
-<h1>bienvenue dans {{title}} </h1>
+    <h1>bienvenue dans {{title}} </h1>
 
-<!-- <app-basic></app-basic> -->
+    <!-- <app-basic></app-basic> -->
 
-<!-- router-outlet sera automatiquement remplacé par le composant lié à la route(fin url) courante-->
-<router-outlet></router-outlet>
+    <!-- router-outlet sera automatiquement remplacé par le composant lié à la route(fin url) courante-->
+    <router-outlet></router-outlet>
 
 
 
-<app-footer></app-footer>
+    <app-footer></app-footer>
+</div>
