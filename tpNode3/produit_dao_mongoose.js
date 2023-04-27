@@ -16,19 +16,34 @@ var initMongooseWithSchemaAndModel = function (callbackWithPersistentProduitMode
     db.on('error', function () {
         console.log("mongoDb connection error for dbUrl=" + mongoDbUrl);
     });
+
+    /*
+     By default, Mongoose adds an _id property to your schemas.
+     ----------------
+     You can also overwrite Mongoose's default _id with your own _id. Just be careful: Mongoose will refuse to save a document that doesn't have an _id, 
+     so you're responsible for setting _id if you define your own _id
+     ------------- 
+    */
+
+
     db.once('open', function () {
         // we're connected!
         console.log("Connected correctly to mongodb database");
         produitSchema = new mongoose.Schema({
-            _id: { type: mongoose.ObjectId, alias: "code" },
+            //_id: { type: mongoose.ObjectId, alias: "code" },
+            //NB: * specific _id in schema ==> id value must be set by code before add/insert
+            //    * automatic mongoose default _id (of type mongoose.Types.ObjectId) 
+            //    will be automatically generated during add/insert
             nom: String,
             prix: Number
         });
         produitSchema.set('id', false); //no default virtual id alias for _id
+        produitSchema.virtual('code').get(function() { return this._id; });
+        produitSchema.virtual('code').set(function(newIdCodeVal) { this._id=newIdCodeVal; });
         produitSchema.set('toJSON', {
             virtuals: true,
             versionKey: false ,
-           transform: function (doc, ret) { delete ret._id }
+           transform: function (doc, ret) { ret.code = ret._id; delete ret._id }
         });
         //"Produit" model name is "produits" collection name in mongoDB mabase database
         PersistentProduitModel = mongoose.model('Produit', produitSchema);

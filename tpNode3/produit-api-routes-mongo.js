@@ -54,13 +54,15 @@ apiRouter.route('/produit-api/private/role-admin/produit')
        
         try{
         var nouveauProduit = req.body;
-        nouveauProduit.code = new mongoose.Types.ObjectId();
+        //setting _id/code by code before save() is necessary with schema
+        //with custom _id (not with default _id of mongoose.Types.ObjectId type)
+        //nouveauProduit.code = new mongoose.Types.ObjectId();
         console.log("nouveauProduit = " + JSON.stringify(nouveauProduit))
         let persistentProduct = new PersistentProduitModel(nouveauProduit);
         let savedProduct = await persistentProduct.save();
         console.log("savedProduct = " + JSON.stringify(savedProduct))
         //nouveauProduit.code = savedProduct.code;
-        res.send(nouveauProduit);
+        res.send(savedProduct);
     }catch(err){
         res.status(500).json(err);
     }
