@@ -1,5 +1,5 @@
 export class Produit {
-    constructor(public code : string ="",
+    constructor(public id : string ="",
                 public nom : string ="",
                 public prix : number = 0){}
 }
