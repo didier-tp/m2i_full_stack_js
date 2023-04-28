@@ -1,0 +1,9 @@
+<div class="card mb-2">
+    <div class="card-header text-white bg-primary" (click)="toggleP = !toggleP">
+        {{title}} <i [class.bi-arrow-down-circle-fill]="!toggleP" 
+        [class.bi-arrow-up-circle-fill]="toggleP"></i>
+    </div>
+    <div class="card-body collapse" [class.show]="toggleP">
+        <ng-content></ng-content> <!-- remplacé par le contenu imbriqué -->
+    </div>
+</div>

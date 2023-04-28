@@ -9,6 +9,13 @@ import { BasicComponent } from './basic/basic.component';
 import { CalculatriceComponent } from './basic/calculatrice/calculatrice.component';
 import { TvaComponent } from './basic/tva/tva.component';
 import { FormsModule } from '@angular/forms';
+import { WelcomeComponent } from './welcome/welcome.component';
+import { LoginComponent } from './login/login.component';
+import { ZzComponent } from './basic/zz/zz.component';
+import { TogglePanelComponent } from './toggle-panel/toggle-panel.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ProduitComponent } from './produit/produit.component';
+
 
 
 @NgModule({
@@ -18,12 +25,18 @@ import { FormsModule } from '@angular/forms';
     FooterComponent,
     BasicComponent,
     CalculatriceComponent,
-    TvaComponent
+    TvaComponent,
+    WelcomeComponent,
+    LoginComponent,
+    ZzComponent,
+    TogglePanelComponent,
+    ProduitComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

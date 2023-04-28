@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { PreferencesService } from '../common/service/preferences.service';
 
 @Component({
   selector: 'app-header',
@@ -6,5 +7,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
+
+    @Input()
+     titre = "titre_par_defaut";
+
+
+  constructor(public preferencesService : PreferencesService) { 
+    //lien entre composant et service par injection par constructeur
+    console.log("dans constructeur de HeaderComponent , titre=" + this.titre)
+  }
+
+ ngOnInit(): void { console.log("dans ngOnInit() de HeaderComponent , titre=" + this.titre)
+ }
 
 }
