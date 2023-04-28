@@ -33,6 +33,17 @@ export class ProduitComponent {
        }
    }
         
+   async onModifPrix(){
+       try{
+        let premierProduit = JSON.parse( JSON.stringify( this.listeProduits[0] ) ); //clonage
+        premierProduit.prix = premierProduit.prix + 1;
+        await  firstValueFrom( this.produitService.modifierProduit$(premierProduit) );
+        this.listeProduits = await  firstValueFrom( this.produitService.recupererProduit$() ); //reactualiser valeurs pour vérifier
+       }
+       catch(err){
+          console.log("err:" + JSON.stringify(err));
+       }
+   }
 
 
 }

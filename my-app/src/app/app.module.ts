@@ -13,8 +13,9 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { LoginComponent } from './login/login.component';
 import { ZzComponent } from './basic/zz/zz.component';
 import { TogglePanelComponent } from './toggle-panel/toggle-panel.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ProduitComponent } from './produit/produit.component';
+import { MyAuthInterceptor } from './common/interceptor/my-auth.interceptor';
 
 
 
@@ -38,7 +39,13 @@ import { ProduitComponent } from './produit/produit.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MyAuthInterceptor,
+      multi: true
+      }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -24,4 +24,9 @@ export class ProduitService {
      let url = "http://localhost:8282/produit-api/public/produit";
      return this.http.get< Produit[] >(url);
    }
+
+   public modifierProduit$(produit: Produit) : Observable< Produit > {
+     let url = "http://localhost:8282/produit-api/private/produit";
+     return this.http.put< Produit >(url,produit);
+  }
 }
