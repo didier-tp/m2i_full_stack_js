@@ -21,12 +21,14 @@ export class ProduitService {
       ]);
       */
      // V2 : appel de WS REST vers le serveur nodeJs:
-     let url = "http://localhost:8282/produit-api/public/produit";
+     //let url = "http://localhost:8282/produit-api/public/produit";
+     let url = "/produit-api/public/produit"; //ok en dev si ng serve --proxy-config proxy.conf.json
      return this.http.get< Produit[] >(url);
    }
 
    public modifierProduit$(produit: Produit) : Observable< Produit > {
-     let url = "http://localhost:8282/produit-api/private/produit";
+     //let url = "http://localhost:8282/produit-api/private/produit";
+     let url = "/produit-api/private/produit"; //ok en dev si ng serve --proxy-config proxy.conf.json
      return this.http.put< Produit >(url,produit);
   }
 }

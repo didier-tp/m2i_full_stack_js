@@ -13,7 +13,8 @@ export class LoginService {
 
   public postLogin$(loginRequest : LoginRequest) : Observable < LoginResponse > {
     sessionStorage.setItem("token","");
-    let url="http://localhost:8282/login-api/public/auth";
+    //let url="http://localhost:8282/login-api/public/auth";
+    let url="/login-api/public/auth";   //ok en dev si ng serve --proxy-config proxy.conf.json
     return this.http.post<LoginResponse>(url,loginRequest).pipe(
       tap((loginResponse)=>{this.memoriserJeton(loginResponse)})
     )
